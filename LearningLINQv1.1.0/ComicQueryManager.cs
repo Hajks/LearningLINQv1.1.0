@@ -98,9 +98,31 @@ namespace LearningLINQv1._1._0
                     {
                         Title = i.ToString(),
                         Image = CreateImageFromAssets("purple_250x250.jpg"),
-                    }
-                    );
+                    });
             }
+
+        }
+        private void ExpensiveComics()
+        {
+            IEnumerable<Comic> comics = BuildCatalog();
+            Dictionary<int, decimal> values = GetPrices();
+        
+        var mostExpensive = from comic in comics
+                            where values[comic.Issue] > 500
+                            orderby values [comic.Issue] descending
+                            select comic;
+        foreach (Comic comic in mostExpensive)
+            {
+                CurrentQueryResults.Add(
+                    new 
+                    {
+                  Title = String.Format("{0} jest warty {1:c}", comic.Name, values[comic.Issue]), 
+                Image = CreateImageFromAssets("captain_amaizing_250x250.jpg"),
+                   });
+            }
+
+
+
         }
     }
 }
